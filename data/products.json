@@ -1,0 +1,10 @@
+[
+  { "id": 1, "title": "Air Max Sneakers", "brand": "Nike", "price": 120.00, "img": "https://via.placeholder.com/200?text=Nike+Air+Max", "description": "Popular Nike sneakers shipped from US." },
+  { "id": 2, "title": "MacBook Air M2", "brand": "Apple", "price": 999.00, "img": "https://via.placeholder.com/200?text=MacBook+Air", "description": "Lightweight laptop - pre-order from US store." },
+  { "id": 3, "title": "501 Original Jeans", "brand": "Levi's", "price": 59.99, "img": "https://via.placeholder.com/200?text=Levis+501", "description": "Classic Levi's jeans imported from USA." },
+  { "id": 4, "title": "PlayStation 5 Controller", "brand": "Sony", "price": 69.99, "img": "https://via.placeholder.com/200?text=PS5+Controller", "description": "Official DualSense controller." },
+  { "id": 5, "title": "Puffer Jacket", "brand": "Patagonia", "price": 199.00, "img": "https://via.placeholder.com/200?text=Patagonia+Jacket", "description": "Warm jacket - pre-order from US." },
+  { "id": 6, "title": "Air Force 1", "brand": "Nike", "price": 90.00, "img": "https://via.placeholder.com/200?text=Air+Force+1", "description": "Classic Nike silhouettes." },
+  { "id": 7, "title": "iPhone 14 Case", "brand": "Apple", "price": 29.00, "img": "https://via.placeholder.com/200?text=iPhone+Case", "description": "Official case from Apple." },
+  { "id": 8, "title": "Graphic Tee", "brand": "Levi's", "price": 24.50, "img": "https://via.placeholder.com/200?text=Levis+Tee", "description": "Comfortable cotton tee." }
+]

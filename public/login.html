@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เข้าสู่ระบบ</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="auth-page">
+  <nav class="topnav">
+    <div class="nav-inner">
+      <a href="/" class="logo">PreOrder<span class="muted">USA</span></a>
+    </div>
+  </nav>
+
+  <main class="auth-form">
+    <div class="form-card">
+      <h1>เข้าสู่ระบบ</h1>
+      <p class="text-muted">ยินดีต้อนรับกลับมา</p>
+
+      <form id="login-form">
+        <div id="error-message" class="error-message hidden"></div>
+        <div class="form-group">
+          <label>ชื่อผู้ใช้</label>
+          <input name="username" type="text" placeholder="ชื่อผู้ใช้ของคุณ" required>
+        </div>
+        <div class="form-group">
+          <label>รหัสผ่าน</label>
+          <input name="password" type="password" placeholder="รหัสผ่านของคุณ" required>
+        </div>
+        <button type="submit" class="btn-primary">เข้าสู่ระบบ</button>
+      </form>
+
+      <p class="form-footer">ยังไม่มีบัญชี? <a href="/register.html">สมัครสมาชิก</a></p>
+    </div>
+  </main>
+  <script src="/auth.js"></script>
+</body>
+</html>

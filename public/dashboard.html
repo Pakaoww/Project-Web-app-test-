@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>บัญชีของฉัน - PreOrder USA</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <div class="nav-inner">
+      <a href="/" class="logo">PreOrder<span class="muted">USA</span></a>
+      <div class="nav-links">
+        <a href="/">ร้านค้า</a>
+        <div class="profile-dropdown">
+          <button class="profile-btn">
+            <span class="profile-avatar" id="profile-avatar">U</span>
+            <span id="profile-username-nav" class="profile-name"></span>
+          </button>
+          <div class="dropdown-menu">
+            <a href="/dashboard" class="dropdown-item">บัญชีของฉัน</a>
+            <a href="#" id="logout-link" class="dropdown-item">ออกจากระบบ</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dashboard-container">
+    <div class="dashboard-header">
+      <div>
+        <h1>ยินดีต้อนรับ, <span id="welcome-name"></span></h1>
+        <p class="text-muted">จัดการบัญชีและติดตามการสั่งซื้อของคุณ</p>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Profile Card -->
+      <section class="dashboard-card">
+        <div class="card-header">
+          <h2>ข้อมูลบัญชีและที่อยู่</h2>
+          <button id="edit-profile" class="btn-small">แก้ไข</button>
+        </div>
+        <div id="profile-display" class="profile-info">
+          <div class="info-section">
+            <h3 class="section-title">ข้อมูลบัญชี</h3>
+            <div class="info-row">
+              <label>ชื่อผู้ใช้</label>
+              <span id="profile-username"></span>
+            </div>
+            <div class="info-row">
+              <label>อีเมล</label>
+              <span id="profile-email"></span>
+            </div>
+            <div class="info-row">
+              <label>วันสมัครสมาชิก</label>
+              <span id="profile-created"></span>
+            </div>
+          </div>
+          
+          <div class="info-section">
+            <h3 class="section-title">ข้อมูลส่วนตัวและที่อยู่</h3>
+            <div class="info-row">
+              <label>ชื่อ-นามสกุล</label>
+              <span id="address-fullname">-</span>
+            </div>
+            <div class="info-row">
+              <label>เบอร์โทรศัพท์</label>
+              <span id="address-phone">-</span>
+            </div>
+            <div class="info-row">
+              <label>ที่อยู่</label>
+              <span id="address-address">-</span>
+            </div>
+            <div class="info-row">
+              <label>เมือง/อำเภอ</label>
+              <span id="address-city">-</span>
+            </div>
+            <div class="info-row">
+              <label>รหัสไปรษณีย์</label>
+              <span id="address-postal">-</span>
+            </div>
+            <div class="info-row">
+              <label>ประเทศ</label>
+              <span id="address-country">-</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cart Card -->
+      <section class="dashboard-card">
+        <div class="card-header">
+          <h2>ตะกร้าของคุณ</h2>
+          <span class="badge" id="cart-badge">0</span>
+        </div>
+        <div id="dashboard-cart" class="cart-preview"></div>
+        <div class="card-footer">
+          <a href="/" class="btn-primary-small">ไปยังร้านค้า</a>
+        </div>
+      </section>
+
+      <!-- Quick Stats -->
+      <section class="dashboard-card">
+        <div class="card-header">
+          <h2>สรุป</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value" id="total-items">0</div>
+            <div class="stat-label">สินค้าในตะกร้า</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value" id="total-price">$0</div>
+            <div class="stat-label">ราคารวม</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>แก้ไขข้อมูลบัญชี</h2>
+        <button class="modal-close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h3 class="section-title">ข้อมูลบัญชี</h3>
+        <div class="form-group">
+          <label>ชื่อผู้ใช้</label>
+          <input type="text" id="modal-username" disabled>
+          <small class="text-muted">ไม่สามารถเปลี่ยนชื่อผู้ใช้ได้</small>
+        </div>
+        <div class="form-group">
+          <label>อีเมล</label>
+          <input type="email" id="modal-email">
+        </div>
+        
+        <h3 class="section-title">ข้อมูลส่วนตัวและที่อยู่</h3>
+        <div class="form-group">
+          <label>ชื่อ-นามสกุล</label>
+          <input type="text" id="modal-fullname" placeholder="ชื่อ-นามสกุล">
+        </div>
+        <div class="form-group">
+          <label>เบอร์โทรศัพท์</label>
+          <input type="text" id="modal-phone" placeholder="09xxxxxxxxx">
+        </div>
+        <div class="form-group">
+          <label>ที่อยู่</label>
+          <textarea id="modal-address" placeholder="เลขที่ ซอย ถนน" rows="3"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>เมือง/อำเภอ</label>
+            <input type="text" id="modal-city" placeholder="เมือง/อำเภอ">
+          </div>
+          <div class="form-group">
+            <label>รหัสไปรษณีย์</label>
+            <input type="text" id="modal-postal" placeholder="10110">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ประเทศ</label>
+          <input type="text" id="modal-country" placeholder="ประเทศ">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="modal-cancel" class="btn-secondary">ยกเลิก</button>
+        <button id="modal-save" class="btn-primary">บันทึกทั้งหมด</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script>
+    let currentUserId = null;
+    
+    async function loadDashboard(){
+      try {
+        const me = await fetch('/api/me').then(r => r.json());
+        currentUserId = me.id;
+        document.getElementById('welcome-name').textContent = me.username;
+        const initials = me.username.charAt(0).toUpperCase();
+        const avatarEl = document.getElementById('profile-avatar');
+        const nameEl = document.getElementById('profile-username-nav');
+        if (avatarEl) avatarEl.textContent = initials;
+        if (nameEl) nameEl.textContent = me.username;
+        document.getElementById('profile-username').textContent = me.username;
+        document.getElementById('profile-email').textContent = me.email;
+        
+        // Load address data
+        await loadAddress();
+        
+        const cart = await fetch('/api/cart').then(r => r.json());
+        const totalQty = cart.reduce((sum, i) => sum + (i.qty || 0), 0);
+        const totalPrice = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+        
+        document.getElementById('cart-badge').textContent = totalQty;
+        document.getElementById('total-items').textContent = totalQty;
+        document.getElementById('total-price').textContent = '$' + totalPrice.toFixed(2);
+        
+        if (cart.length) {
+          document.getElementById('dashboard-cart').innerHTML = cart.map(i => `
+            <div class="cart-item-preview">
+              <div class="item-title">${i.title}</div>
+              <div class="item-qty">จำนวน: ${i.qty}</div>
+              <div class="item-price">$${(i.price * i.qty).toFixed(2)}</div>
+            </div>
+          `).join('');
+        } else {
+          document.getElementById('dashboard-cart').innerHTML = '<div class="empty-state">ตะกร้าว่าง</div>';
+        }
+      } catch(e) {
+        window.location = '/login.html';
+      }
+    }
+    
+    async function loadAddress() {
+      try {
+        const profile = await fetch(`/api/profile/${currentUserId}`).then(r => r.json());
+        document.getElementById('address-fullname').textContent = profile.first_name && profile.last_name ? `${profile.first_name} ${profile.last_name}` : (profile.first_name || '-');
+        document.getElementById('address-phone').textContent = profile.phone || '-';
+        document.getElementById('address-address').textContent = profile.address || '-';
+        document.getElementById('address-city').textContent = profile.city || '-';
+        document.getElementById('address-postal').textContent = profile.postal_code || '-';
+        document.getElementById('address-country').textContent = profile.country || 'Thailand';
+      } catch(e) {
+        console.log('No profile data yet');
+      }
+    }
+    
+    // Modal controls
+    const modal = document.getElementById('edit-modal');
+    const modalClose = document.getElementById('modal-close');
+    const modalCancel = document.getElementById('modal-cancel');
+    
+    document.getElementById('edit-profile').addEventListener('click', async () => {
+      // Populate modal with current data
+      document.getElementById('modal-username').value = document.getElementById('profile-username').textContent;
+      document.getElementById('modal-email').value = document.getElementById('profile-email').textContent;
+      
+      // Load current profile data
+      try {
+        const profile = await fetch(`/api/profile/${currentUserId}`).then(r => r.json());
+        document.getElementById('modal-fullname').value = (profile.first_name || '') + (profile.last_name ? ' ' + profile.last_name : '');
+        document.getElementById('modal-phone').value = profile.phone || '';
+        document.getElementById('modal-address').value = profile.address || '';
+        document.getElementById('modal-city').value = profile.city || '';
+        document.getElementById('modal-postal').value = profile.postal_code || '';
+        document.getElementById('modal-country').value = profile.country || 'Thailand';
+      } catch(e) {
+        console.log('No profile data yet');
+      }
+      
+      // Show modal
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    modalClose.addEventListener('click', closeModal);
+    modalCancel.addEventListener('click', closeModal);
+    
+    // Close on overlay click
+    document.querySelector('.modal-overlay').addEventListener('click', closeModal);
+    
+    document.getElementById('modal-save').addEventListener('click', async () => {
+      const newEmail = document.getElementById('modal-email').value;
+      
+      if (!newEmail || !newEmail.includes('@')) {
+        alert('กรุณากรอกอีเมลที่ถูกต้อง');
+        return;
+      }
+      
+      // Save email first
+      try {
+        const emailRes = await fetch('/api/update-email', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ email: newEmail })
+        });
+        
+        const emailResult = await emailRes.json();
+        
+        if (!emailRes.ok) {
+          alert(emailResult.error || 'บันทึกอีเมลไม่สำเร็จ');
+          return;
+        }
+        
+        // Save profile/address data
+        const fullname = document.getElementById('modal-fullname').value.split(' ');
+        const profileData = {
+          first_name: fullname[0] || '',
+          last_name: fullname.slice(1).join(' ') || '',
+          phone: document.getElementById('modal-phone').value,
+          address: document.getElementById('modal-address').value,
+          city: document.getElementById('modal-city').value,
+          postal_code: document.getElementById('modal-postal').value,
+          country: document.getElementById('modal-country').value
+        };
+        
+        const profileRes = await fetch(`/api/profile/${currentUserId}`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(profileData)
+        });
+        
+        if (profileRes.ok) {
+          // Reload data and close modal
+          document.getElementById('profile-email').textContent = newEmail;
+          await loadAddress();
+          closeModal();
+          alert('บันทึกข้อมูลทั้งหมดสำเร็จ');
+        } else {
+          alert('บันทึกข้อมูลส่วนตัวไม่สำเร็จ');
+        }
+      } catch(e) {
+        alert('เกิดข้อผิดพลาด');
+      }
+    });
+    
+    document.getElementById('logout-link').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await fetch('/api/logout', {method: 'POST'});
+      window.location = '/';
+    });
+    
+    loadDashboard();
+  </script>
+</body>
+</html>

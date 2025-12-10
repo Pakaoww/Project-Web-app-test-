@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Preorder USA Shop</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <div class="nav-inner">
+      <a href="/" class="logo">PreOrder<span class="muted">USA</span></a>
+      <div class="nav-links">
+        <a href="/">ร้านค้า</a>
+        <div id="auth-user" class="profile-dropdown hidden">
+          <button class="profile-btn">
+            <span class="profile-avatar" id="profile-avatar">U</span>
+            <span id="profile-username-nav" class="profile-name"></span>
+          </button>
+          <div class="dropdown-menu">
+            <a href="/dashboard" class="dropdown-item">บัญชีของฉัน</a>
+            <a href="#" id="logout-link" class="dropdown-item">ออกจากระบบ</a>
+          </div>
+        </div>
+        <a href="/login.html" id="signin-link" class="signin">เข้าสู่ระบบ</a>
+        <button id="open-cart" class="cart">ตะกร้า (<span id="cart-count">0</span>)</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>Pre-order ของจากสหรัฐอเมริกา</h1>
+      <p class="lead">เลือกแบรนด์ยอดนิยมแล้วกดสั่ง — พรีออเดอร์ง่าย ๆ ส่งถึงไทย</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <aside id="brands" class="sidebar"></aside>
+    <section id="products" class="grid"></section>
+  </main>
+
+  <div id="cart-drawer" class="hidden">
+    <h2>ตะกร้าของฉัน</h2>
+    <div id="cart-items"></div>
+    <div class="cart-actions">
+      <button id="clear-cart">ล้างตะกร้า</button>
+      <button id="checkout">เช็คเอาท์</button>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

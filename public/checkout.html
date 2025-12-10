@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>เช็คเอาท์ - PreOrder USA</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <nav class="topnav">
+    <div class="nav-inner">
+      <a href="/" class="logo">PreOrder<span class="muted">USA</span></a>
+      <div class="nav-links">
+        <a href="/">ร้านค้า</a>
+        <a href="/dashboard">บัญชีของฉัน</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container checkout-page" style="max-width:none;width:100%;padding-left:0;padding-right:0;">
+    <header class="checkout-header">
+      <h1>เช็คเอาท์</h1>
+      <p class="text-muted">ตรวจสอบข้อมูลและยืนยันการสั่งซื้อของคุณ</p>
+      <div class="steps">
+        <div class="step active">1. ที่อยู่จัดส่ง</div>
+        <div class="step">2. สินค้า</div>
+        <div class="step">3. สรุปและยืนยัน</div>
+      </div>
+    </header>
+
+    <div class="checkout-grid">
+      <section class="dashboard-card checkout-section" id="section-shipping">
+        <div class="card-header">
+          <h2>ที่อยู่จัดส่ง</h2>
+          <a class="link-small" href="/dashboard" title="แก้ไขที่อยู่">เปลี่ยน</a>
+        </div>
+        <div id="shipping" class="info-list"></div>
+        <div id="shipping-warning" class="warning hidden">กรุณากรอกข้อมูลที่อยู่ให้ครบถ้วนก่อนยืนยันการสั่งซื้อ</div>
+      </section>
+
+      <section class="dashboard-card checkout-section" id="section-items">
+        <div class="card-header"><h2>สินค้าในคำสั่งซื้อ</h2></div>
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th class="col-product">สินค้า</th>
+              <th class="col-price">ราคาต่อหน่วย</th>
+              <th class="col-qty">จำนวน</th>
+              <th class="col-subtotal">รายการย่อย</th>
+            </tr>
+          </thead>
+          <tbody id="items-table"></tbody>
+        </table>
+      </section>
+
+      <section class="dashboard-card checkout-section" id="section-summary">
+        <div class="card-header"><h2>สรุปคำสั่งซื้อ</h2></div>
+        <div id="summary" class="info-list"></div>
+
+        <div class="divider"></div>
+
+        <div class="form-group">
+          <label>หมายเหตุสำหรับร้าน</label>
+          <textarea id="order-note" placeholder="(ไม่บังคับ) ฝากข้อความถึงผู้ขายหรือชำระผ่านแอดมิน"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>วิธีการจัดส่ง</label>
+          <select id="delivery-method">
+            <option value="standard">Standard Delivery (3-7 วัน)</option>
+            <option value="express">Express Delivery (1-3 วัน)</option>
+          </select>
+        </div>
+
+        <div class="agree">
+          <label><input type="checkbox" id="agree-check"> ฉันยอมรับเงื่อนไขการสั่งซื้อและนโยบายการจัดส่ง</label>
+        </div>
+
+        <div class="card-footer checkout-actions">
+          <button id="place-order" class="btn-primary">ยืนยันการสั่งซื้อ</button>
+          <a href="/" class="btn-secondary">กลับไปเลือกสินค้า</a>
+        </div>
+      </section>
+    </div>
+    </main>
+
+    
+
+  <script>
+    function profileComplete(p){
+      return !!(p && p.address && p.city && p.postal_code && p.country);
+    }
+
+    async function loadCheckout(){
+      const res = await fetch('/api/checkout');
+      if (!res.ok){
+        const e = await res.json();
+        alert(e.error || 'เกิดข้อผิดพลาด');
+        if (e.error && e.error.includes('Cart is empty')) window.location = '/';
+        return;
+      }
+      const data = await res.json();
+      const p = data.profile || {};
+      document.getElementById('shipping').innerHTML = `
+        <div class="info-row"><label>ชื่อ-นามสกุล</label><span>${(p.first_name||'-') + (p.last_name? ' ' + p.last_name : '')}</span></div>
+        <div class="info-row"><label>ที่อยู่</label><span>${p.address || '-'}</span></div>
+        <div class="info-row"><label>เมือง/อำเภอ</label><span>${p.city || '-'}</span></div>
+        <div class="info-row"><label>รหัสไปรษณีย์</label><span>${p.postal_code || '-'}</span></div>
+        <div class="info-row"><label>ประเทศ</label><span>${p.country || 'Thailand'}</span></div>
+      `;
+      const warnEl = document.getElementById('shipping-warning');
+      if (!profileComplete(p)) warnEl.classList.remove('hidden'); else warnEl.classList.add('hidden');
+        document.getElementById('shipping').innerHTML = `
+          <div class="info-row"><label>ชื่อ-นามสกุล</label><span>${(p.first_name||'-') + (p.last_name? ' ' + p.last_name : '')}</span></div>
+          <div class="info-row"><label>ที่อยู่</label><span>${p.address || '-'}</span></div>
+          <div class="info-row"><label>เมือง/อำเภอ</label><span>${p.city || '-'}</span></div>
+          <div class="info-row"><label>รหัสไปรษณีย์</label><span>${p.postal_code || '-'}</span></div>
+          <div class="info-row"><label>ประเทศ</label><span>${p.country || 'Thailand'}</span></div>
+        `;
+      document.getElementById('summary').innerHTML = `
+        <div class="info-row"><label>จำนวนสินค้า</label><span>${data.cart.reduce((s,i)=>s+i.qty,0)}</span></div>
+        <div class="info-row"><label>รวมทั้งหมด</label><span>$${data.total.toFixed(2)}</span></div>
+      `;
+        document.getElementById('summary').innerHTML = `
+          <div class="info-row"><label>จำนวนสินค้า</label><span>${data.cart.reduce((s,i)=>s+i.qty,0)}</span></div>
+          <div class="info-row"><label>รวมทั้งหมด</label><span>$${data.total.toFixed(2)}</span></div>
+        `;
+      document.getElementById('items-table').innerHTML = data.cart.map(i => `
+        <tr>
+          <td class="col-product">${i.title}</td>
+          <td class="col-price">$${(i.price).toFixed(2)}</td>
+          <td class="col-qty">${i.qty}</td>
+          <td class="col-subtotal">$${(i.price * i.qty).toFixed(2)}</td>
+        </tr>
+      `).join('');
+    }
+
+    document.getElementById('place-order').addEventListener('click', async () => {
+      // Validate agreement and address
+      const agree = document.getElementById('agree-check').checked;
+      if (!agree){
+        alert('กรุณาติ๊กยอมรับเงื่อนไขการสั่งซื้อ');
+        return;
+      }
+      const shipWarnVisible = !document.getElementById('shipping-warning').classList.contains('hidden');
+      if (shipWarnVisible){
+        alert('กรุณากรอกข้อมูลที่อยู่ให้ครบถ้วนก่อน');
+        return;
+      }
+
+      const note = document.getElementById('order-note').value || '';
+      const delivery = document.getElementById('delivery-method').value;
+
+      const res = await fetch('/api/checkout', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ note, delivery }) });
+      const result = await res.json();
+      if (res.ok){
+        alert('สั่งซื้อสำเร็จ เลขที่คำสั่งซื้อ #' + result.order_id);
+        window.location = '/dashboard';
+      } else {
+        alert(result.error || 'สั่งซื้อไม่สำเร็จ');
+      }
+    });
+
+    loadCheckout();
+  </script>
+</body>
+</html>
